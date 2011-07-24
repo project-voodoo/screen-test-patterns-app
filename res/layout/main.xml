@@ -22,7 +22,7 @@
         <Button android:text="@string/button_colors" android:tag="colors" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_colors"></Button>
         <Button android:text="@string/button_saturations" android:tag="saturations" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_saturations"></Button>
 
-        <TextView android:text="Current Pattern" android:id="@+id/current_pattern_info" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:paddingTop="10dip" android:paddingBottom="10dip" ></TextView>
+        <TextView android:text="Current Pattern:\nDetailed Infos" android:id="@+id/current_pattern_info" android:layout_height="wrap_content" android:paddingTop="10dip" android:paddingBottom="10dip" android:layout_width="match_parent" android:layout_gravity="center_horizontal"></TextView>
 
         <LinearLayout android:orientation="horizontal" android:id="@+id/linearLayout1" android:layout_width="wrap_content" android:layout_gravity="top" android:layout_height="match_parent" android:baselineAligned="true">
             <Button android:text="@string/prev" android:tag="prev" android:layout_width="wrap_content" android:id="@+id/button_prev" android:layout_gravity="bottom" android:layout_height="match_parent"></Button>

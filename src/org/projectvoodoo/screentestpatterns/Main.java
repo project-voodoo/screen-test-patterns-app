@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -172,7 +171,20 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
         display.getPaint().setColor(pattern.getColor());
         patternView.setBackgroundDrawable(display);
+        showCurrentPatternInfos();
 
+    }
+
+    private void showCurrentPatternInfos() {
+        String text = pattern.type + " ";
+        if (pattern.type == PatternType.GRAYSCALE)
+            text += "IRE " + (int) ((float) 100 / pattern.grayscaleLevels * pattern.step) + "\n";
+        else
+            text += "\n";
+        text += "R: " + Color.red(pattern.color);
+        text += " G: " + Color.green(pattern.color);
+        text += " B: " + Color.blue(pattern.color);
+        currentPatternInfos.setText(text);
     }
 
     private void setSpinnerValue(Spinner spinner, int value) {
@@ -204,6 +216,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             if (tag.equals("grayscale")) {
                 pattern.grayscaleLevels = value;
                 pattern.step = 0;
+                displayPattern();
                 editor.putInt(name, value);
 
             } else if (tag.equals("near_black")) {

@@ -22,6 +22,8 @@ public class Patterns {
     public int nearWhiteLevels = 4;
     public int saturationLevels = 4;
 
+    public int color;
+
     public int grayscale() {
         int val = (int) ((float) 255 / (float) grayscaleLevels * (float) step + 0.5);
         int color = Color.rgb(val, val, val);
@@ -32,10 +34,12 @@ public class Patterns {
     public int getColor() {
         switch (type) {
             case GRAYSCALE:
-                return grayscale();
+                color = grayscale();
+                return color;
             default:
                 break;
         }
+
         // should never arrive here, output scary red
         Log.d("ScreenTestPatterns", "Invalid type: " + type);
         return Color.rgb(255, 0, 0);
