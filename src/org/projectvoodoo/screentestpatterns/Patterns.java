@@ -27,20 +27,26 @@ public class Patterns {
     public void grayscale() {
         if (step > grayscaleLevels)
             step = 0;
+        if (step < 0)
+            step = grayscaleLevels;
         int val = (int) ((float) 255 / grayscaleLevels * step + 0.5);
         color = Color.rgb(val, val, val);
     }
 
     public void nearBlack() {
-        if (step > nearBlackLevels)
+        if (step > nearBlackLevels || step < 0)
             step = 0;
+        if (step < 0)
+            step = nearBlackLevels;
         int val = (int) ((float) 255 / 100 * step + 0.5);
         color = Color.rgb(val, val, val);
     }
 
     public void nearWhite() {
-        if (step > nearWhiteLevels)
+        if (step > nearWhiteLevels || step < 0)
             step = 0;
+        if (step < 0)
+            step = nearWhiteLevels;
         int val = (int) ((float) 255 * (100 - nearWhiteLevels + step) / 100);
         color = Color.rgb(val, val, val);
     }
