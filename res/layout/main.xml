@@ -15,17 +15,18 @@
 
         <TextView android:text="@string/saturation" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
         <Spinner android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_saturation_levels"></Spinner>
-        <Button android:text="@string/button_greyscale" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/button1"></Button>
-        <Button android:text="@string/button_whites" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/button3"></Button>
-        <Button android:text="@string/button_blacks" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/button3"></Button>
-        <Button android:text="@string/button_colors" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/button2"></Button>
-        <Button android:text="@string/button_saturations" android:layout_height="wrap_content" android:layout_width="wrap_content" android:id="@+id/button2"></Button>
+
+        <Button android:text="@string/button_greyscale" android:tag="button_greyscale" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_greyscale"></Button>
+        <Button android:text="@string/button_near_black" android:tag="button_near_black" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_near_black"></Button>
+        <Button android:text="@string/button_near_white" android:tag="button_near_white" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_near_white"></Button>
+        <Button android:text="@string/button_colors" android:tag="button_colors" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_colors"></Button>
+        <Button android:text="@string/button_saturations" android:tag="button_saturations" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_saturations"></Button>
 
         <TextView android:text="Current Pattern" android:id="@+id/current_pattern_info" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:paddingTop="10dip" android:paddingBottom="10dip" ></TextView>
 
         <LinearLayout android:orientation="horizontal" android:id="@+id/linearLayout1" android:layout_width="wrap_content" android:layout_gravity="top" android:layout_height="match_parent" android:baselineAligned="true">
-            <Button android:text="@string/prev" android:layout_width="wrap_content" android:id="@+id/button_prev" android:layout_gravity="bottom" android:layout_height="match_parent"></Button>
-            <Button android:text="@string/next" android:layout_width="wrap_content" android:id="@+id/button_next" android:layout_height="match_parent" android:layout_gravity="bottom"></Button>
+            <Button android:text="@string/prev" android:tag="prev" android:layout_width="wrap_content" android:id="@+id/button_prev" android:layout_gravity="bottom" android:layout_height="match_parent"></Button>
+            <Button android:text="@string/next" android:tag="next" android:layout_width="wrap_content" android:id="@+id/button_next" android:layout_height="match_parent" android:layout_gravity="bottom"></Button>
         </LinearLayout>
     </LinearLayout>
 	<View android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/pattern_display"></View>

@@ -45,8 +45,8 @@
     </string-array>
         <string name="button_greyscale">Greyscale</string>
         <string name="button_colors">All Colors</string>
-        <string name="button_saturations">Color Saturations</string>
-        <string name="button_blacks">Near Black</string>
-        <string name="button_whites">Near White</string>
+        <string name="button_saturations">Saturations</string>
+        <string name="button_near_black">Near Black</string>
+        <string name="button_near_white">Near White</string>
 
 </resources>
