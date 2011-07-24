@@ -143,18 +143,22 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
         } else if (tag.equals("near_black")) {
             pattern.type = PatternType.NEAR_BLACK;
+            pattern.step = 0;
             displayPattern();
 
         } else if (tag.equals("near_white")) {
             pattern.type = PatternType.NEAR_WHITE;
+            pattern.step = 0;
             displayPattern();
 
         } else if (tag.equals("colors")) {
             pattern.type = PatternType.COLORS;
+            pattern.step = 0;
             displayPattern();
 
         } else if (tag.equals("saturations")) {
             pattern.type = PatternType.SATURATIONS;
+            pattern.step = 0;
             displayPattern();
 
         } else if (tag.equals("prev")) {
@@ -221,14 +225,20 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
             } else if (tag.equals("near_black")) {
                 pattern.nearBlackLevels = value;
+                pattern.step = 0;
+                displayPattern();
                 editor.putInt(name, value);
 
             } else if (tag.equals("near_white")) {
                 pattern.nearWhiteLevels = value;
+                pattern.step = 0;
+                displayPattern();
                 editor.putInt(name, value);
 
             } else if (tag.equals("saturations")) {
                 pattern.saturationLevels = value;
+                pattern.step = 0;
+                displayPattern();
                 editor.putInt(name, value);
             }
             editor.commit();
