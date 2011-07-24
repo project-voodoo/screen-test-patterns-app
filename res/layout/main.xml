@@ -4,23 +4,23 @@
 	android:orientation="horizontal">
     <LinearLayout android:orientation="vertical" android:id="@+id/linearLayout2" android:layout_height="match_parent" android:layout_width="wrap_content" android:layout_margin="5dip">
 
-        <TextView android:text="@string/greyscale" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
-        <Spinner android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_grayscale_levels" android:prompt="@string/greyscale_prompt"></Spinner>
+        <TextView android:text="@string/grayscale" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
+        <Spinner android:tag="grayscale" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_grayscale_levels" android:prompt="@string/grayscale_prompt"></Spinner>
 
         <TextView android:text="@string/near_black" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
-        <Spinner android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_black_levels"></Spinner>
+        <Spinner android:tag="near_black" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_near_black_levels"></Spinner>
 
         <TextView android:text="@string/near_white" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
-        <Spinner android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_white_levels"></Spinner>
+        <Spinner android:tag="near_white" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_near_white_levels"></Spinner>
 
-        <TextView android:text="@string/saturation" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
-        <Spinner android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_saturation_levels"></Spinner>
+        <TextView android:text="@string/saturations" android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
+        <Spinner android:tag="saturations" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/spinner_saturation_levels"></Spinner>
 
-        <Button android:text="@string/button_greyscale" android:tag="button_greyscale" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_greyscale"></Button>
-        <Button android:text="@string/button_near_black" android:tag="button_near_black" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_near_black"></Button>
-        <Button android:text="@string/button_near_white" android:tag="button_near_white" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_near_white"></Button>
-        <Button android:text="@string/button_colors" android:tag="button_colors" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_colors"></Button>
-        <Button android:text="@string/button_saturations" android:tag="button_saturations" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_saturations"></Button>
+        <Button android:text="@string/button_grayscale" android:tag="grayscale" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_grayscale"></Button>
+        <Button android:text="@string/button_near_black" android:tag="near_black" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_near_black"></Button>
+        <Button android:text="@string/button_near_white" android:tag="near_white" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_near_white"></Button>
+        <Button android:text="@string/button_colors" android:tag="colors" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_colors"></Button>
+        <Button android:text="@string/button_saturations" android:tag="saturations" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/button_saturations"></Button>
 
         <TextView android:text="Current Pattern" android:id="@+id/current_pattern_info" android:layout_height="wrap_content" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceLarge" android:paddingTop="10dip" android:paddingBottom="10dip" ></TextView>
 

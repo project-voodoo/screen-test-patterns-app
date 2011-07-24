@@ -4,9 +4,9 @@
     <string name="next">Next</string>
     <string name="prev">Prev</string>
 
-	<string name="greyscale">N° of Greyscale levels</string>
-    <string name="greyscale_prompt">Number of greyscale levels</string>
-    <string-array name="greyscale_array">
+	<string name="grayscale">N° of Grayscale levels</string>
+    <string name="grayscale_prompt">Number of grayscale levels</string>
+    <string-array name="grayscale_array">
         <item>4</item>
         <item>10</item>
         <item>20</item>
@@ -24,7 +24,6 @@
         <item>10</item>
     </string-array>
 
-
 	<string name="near_white">N° of Near White levels</string>
     <string name="near_white_prompt">Number of near white levels</string>
     <string-array name="near_white_array">
@@ -34,16 +33,16 @@
         <item>10</item>
     </string-array>
 
-	<string name="saturation">N° of Saturation levels</string>
-    <string name="saturation_prompt">Number of saturation levels</string>
-    <string-array name="saturation_array">
+	<string name="saturations">N° of Saturation levels</string>
+    <string name="saturations_prompt">Number of saturation levels</string>
+    <string-array name="saturations_array">
         <item>4</item>
         <item>6</item>
         <item>8</item>
         <item>10</item>
         <item>20</item>
     </string-array>
-        <string name="button_greyscale">Greyscale</string>
+        <string name="button_grayscale">Grayscale</string>
         <string name="button_colors">All Colors</string>
         <string name="button_saturations">Saturations</string>
         <string name="button_near_black">Near Black</string>

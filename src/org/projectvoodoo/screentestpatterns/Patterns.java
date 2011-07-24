@@ -6,20 +6,24 @@ import android.util.Log;
 
 public class Patterns {
 
-    // Measurement modes, with default to greyscale
+    // Measurement modes, with default to grayscale
     public enum PatternType {
-        GREYSCALE,
+        GRAYSCALE,
         NEAR_BLACK,
         NEAR_WHITE,
         COLORS,
         SATURATIONS
     }
 
-    public PatternType type = PatternType.GREYSCALE;
+    public PatternType type = PatternType.GRAYSCALE;
     public int step = 0;
+    public int grayscaleLevels = 10;
+    public int nearBlackLevels = 4;
+    public int nearWhiteLevels = 4;
+    public int saturationLevels = 4;
 
-    public int greyscale(Integer percentage) {
-        int val = 255 * percentage / 100;
+    public int grayscale() {
+        int val = (int) ((float) 255 / (float) grayscaleLevels * (float) step + 0.5);
         int color = Color.rgb(val, val, val);
         logColor(color);
         return color;
@@ -27,8 +31,8 @@ public class Patterns {
 
     public int getColor() {
         switch (type) {
-            case GREYSCALE:
-                return greyscale(step * 10);
+            case GRAYSCALE:
+                return grayscale();
             default:
                 break;
         }
