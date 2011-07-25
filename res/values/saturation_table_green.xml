@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="saturation_table_green">
+        <item>219 219 219</item>
+        <item>208 223 208</item>
+        <item>197 227 197</item>
+        <item>187 230 187</item>
+        <item>177 233 177</item>
+        <item>167 236 167</item>
+        <item>157 238 157</item>
+        <item>147 241 147</item>
+        <item>137 243 137</item>
+        <item>127 244 127</item>
+        <item>116 246 116</item>
+        <item>106 248 106</item>
+        <item>94 249 94</item>
+        <item>67 252 67</item>
+        <item>81 251 81</item>
+        <item>48 253 48</item>
+        <item>0 255 0</item>
+    </string-array>
+
+</resources>

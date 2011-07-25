@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="saturation_table_cyan">
+        <item>228 228 228</item>
+        <item>222 230 230</item>
+        <item>215 215 232</item>
+        <item>208 234 234</item>
+        <item>201 235 235</item>
+        <item>193 237 237</item>
+        <item>185 239 239</item>
+        <item>176 240 240</item>
+        <item>167 242 242</item>
+        <item>157 244 244</item>
+        <item>147 245 245</item>
+        <item>135 247 247</item>
+        <item>122 248 248</item>
+        <item>107 250 250</item>
+        <item>89 251 251</item>
+        <item>65 253 253</item>
+        <item>0 255 255</item>
+    </string-array>
+
+</resources>

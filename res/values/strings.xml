@@ -37,10 +37,8 @@
     <string name="saturations_prompt">Number of saturation levels</string>
     <string-array name="saturations_array">
         <item>4</item>
-        <item>6</item>
         <item>8</item>
-        <item>10</item>
-        <item>20</item>
+        <item>16</item>
     </string-array>
         <string name="button_grayscale">Grayscale</string>
         <string name="button_colors">All Colors</string>

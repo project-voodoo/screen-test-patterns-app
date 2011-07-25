@@ -1,21 +1,26 @@
 
 package org.projectvoodoo.screentestpatterns;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.Log;
 
 public class Patterns {
 
-    private final String TAG = "ScreenTestPatterns";
+    private Context context;
+    private static final String TAG = "ScreenTestPatterns";
 
     // Measurement modes, with default to grayscale
-    public enum PatternType {
+    public static enum PatternType {
         GRAYSCALE,
         NEAR_BLACK,
         NEAR_WHITE,
         COLORS,
         SATURATIONS
     }
+
+    private static final int SATURATION_TABLE_LENGTH = 16;
 
     public PatternType type = PatternType.GRAYSCALE;
     public int step = 0;
@@ -25,6 +30,10 @@ public class Patterns {
     public int saturationLevels = 4;
 
     public int color;
+
+    Patterns(Context c) {
+        context = c;
+    }
 
     public void grayscale() {
         if (step > grayscaleLevels)
@@ -84,117 +93,63 @@ public class Patterns {
     }
 
     private void saturations() {
-        float[] hsvStart = {
-                0, 0, 0
-        };
-        float[] hsvEnd = {
-                0, 0, 0
-        };
-        int stepOffset = 0;
+
         int range = saturationLevels + 1;
+
+        // allow looping via Prev button
+        if (step < 0)
+            step = (range * 6) - 1;
+
+        int skip = SATURATION_TABLE_LENGTH / saturationLevels;
+        int offset = (step % range) * skip;
 
         if (step >= 0 && step < range) {
 
-            Color.colorToHSV(Color.rgb(128, 128, 128), hsvStart);
-            Color.colorToHSV(Color.RED, hsvEnd);
-            stepOffset = 0;
-
             Log.i(TAG, "Red satuation");
-            // start V: 0.5
-            // H : 0
-            // 128 128 128
-            // 170 111 111
-            // 203 92 92
-            // 231 68 68
-            // 255 0 0
+            color = getColorFromSaturationTable(R.array.saturation_table_red, offset);
 
-        } else if (step >= range && step < (range * 2)) {
-
-            Color.colorToHSV(Color.rgb(219, 219, 219), hsvStart);
-            Color.colorToHSV(Color.GREEN, hsvEnd);
-
-            stepOffset = 1;
+        } else if (step < (range * 2)) {
 
             Log.i(TAG, "Green satuation");
-            // start V: 0.86
-            // H : 120
-            // 219 219 219
-            // 177 233 177
-            // 137 243 137
-            // 94 249 94
-            // 0 255 0
+            color = getColorFromSaturationTable(R.array.saturation_table_green, offset);
 
-        } else if (step >= range * 2 && step < (range * 3)) {
-
-            Color.colorToHSV(Color.rgb(78, 78, 78), hsvStart);
-            Color.colorToHSV(Color.BLUE, hsvEnd);
-
-            stepOffset = 2;
+        } else if (step < (range * 3)) {
 
             Log.i(TAG, "Blue satuation");
-            // start V: 0.31
-            // H : 240
-            // 78 78 78
-            // 76 76 100
-            // 72 72 127
-            // 64 64 168
-            // 0 0 255
+            color = getColorFromSaturationTable(R.array.saturation_table_blue, offset);
 
-        } else if (step >= range * 3 && step < (range * 4)) {
-
-            Color.colorToHSV(Color.rgb(245, 245, 245), hsvStart);
-            Color.colorToHSV(Color.YELLOW, hsvEnd);
-
-            stepOffset = 3;
+        } else if (step < (range * 4)) {
 
             Log.i(TAG, "Yellow satuation");
+            color = getColorFromSaturationTable(R.array.saturation_table_yellow, offset);
 
-        } else if (step >= range * 4 && step < (range * 5)) {
-
-            Color.colorToHSV(Color.rgb(227, 227, 227), hsvStart);
-            Color.colorToHSV(Color.CYAN, hsvEnd);
-
-            stepOffset = 4;
+        } else if (step < (range * 5)) {
 
             Log.i(TAG, "Cyan satuation");
+            color = getColorFromSaturationTable(R.array.saturation_table_cyan, offset);
 
-        } else if (step >= range * 5 && step < (range * 6)) {
-
-            Color.colorToHSV(Color.rgb(144, 144, 144), hsvStart);
-            Color.colorToHSV(Color.MAGENTA, hsvEnd);
-
-            stepOffset = 5;
+        } else if (step < (range * 6)) {
 
             Log.i(TAG, "Magenta satuation");
+            color = getColorFromSaturationTable(R.array.saturation_table_magenta, offset);
+        } else {
+            step = 0;
+            saturations();
         }
-
-        Log.i(TAG, "Start\tH: " + hsvStart[0] + " S: " + hsvStart[1] + " V: " + hsvStart[2]);
-        Log.i(TAG, "End\tH: " + hsvEnd[0] + " S: " + hsvEnd[1] + " V: " + hsvEnd[2]);
-
-        color = saturationInterpolation(hsvStart, hsvEnd, stepOffset, range);
+        Log.i(TAG, "Offset: " + offset);
     }
 
-    private int saturationInterpolation(float[] hsvStart, float[] hsvEnd, int stepOffset, int range) {
+    private int getColorFromSaturationTable(int resId, int offset) {
+        Resources res = context.getResources();
+        String[] components = res.getStringArray(resId);
 
-        float[] hsv = {
-                0, 0, 0
-        };
+        String[] valuesStrings = components[offset].split(" ");
+        int i;
+        int[] values = new int[3];
+        for (i = 0; i < 3; i++)
+            values[i] = Integer.parseInt(valuesStrings[i]);
 
-        int saturationStep = (step - (stepOffset * range));
-        Log.i(TAG, "Saturation step: " + saturationStep);
-
-        float startFactor = (float) (saturationLevels - saturationStep) / saturationLevels;
-        float endFactor = (float) saturationStep / saturationLevels;
-        Log.i(TAG, "Saturation factors: start: " + startFactor + " end: " + endFactor);
-
-        // set hue always to hsvEnd
-        hsv[0] = hsvEnd[0];
-        for (int i = 1; i < 3; i++)
-            hsv[i] = hsvStart[i] * startFactor + hsvEnd[i] * endFactor;
-
-        Log.i(TAG, "Blend\tH: " + hsv[0] + " S: " + hsv[1] + " V: " + hsv[2]);
-
-        return Color.HSVToColor(hsv);
+        return Color.rgb(values[0], values[1], values[2]);
     }
 
     public int getColor() {

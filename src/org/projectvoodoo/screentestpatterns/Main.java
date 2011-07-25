@@ -47,7 +47,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         super.onCreate(savedInstanceState);
 
         // instantiate pattern engine
-        pattern = new Patterns();
+        pattern = new Patterns(this);
 
         // preference manager
         settings = getSharedPreferences("hcfr", MODE_PRIVATE);
@@ -98,7 +98,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         // For saturation measurements
         saturationLevelsSpinner = (Spinner) findViewById(R.id.spinner_saturation_levels);
         ArrayAdapter<CharSequence> saturationLevelsAdapter = ArrayAdapter.createFromResource(this,
-                R.array.near_white_array, android.R.layout.simple_spinner_item);
+                R.array.saturations_array, android.R.layout.simple_spinner_item);
         saturationLevelsAdapter.setDropDownViewResource(
                         android.R.layout.simple_spinner_dropdown_item);
         saturationLevelsSpinner.setAdapter(saturationLevelsAdapter);
