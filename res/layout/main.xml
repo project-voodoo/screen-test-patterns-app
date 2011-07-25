@@ -29,5 +29,5 @@
             <Button android:text="@string/next" android:tag="next" android:layout_width="wrap_content" android:id="@+id/button_next" android:layout_height="match_parent" android:layout_gravity="bottom"></Button>
         </LinearLayout>
     </LinearLayout>
-	<View android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/pattern_display"></View>
+	<View android:tag="pattern_display" android:layout_height="wrap_content" android:layout_width="match_parent" android:id="@+id/pattern_display"></View>
 </LinearLayout>

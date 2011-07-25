@@ -78,6 +78,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         display = new ShapeDrawable(new OvalShape());
         display.getPaint().setColor(Color.GRAY);
         patternView.setBackgroundDrawable(display);
+        patternView.setOnClickListener(this);
 
         // configure spinners
         // For grayscale measurements
@@ -183,7 +184,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             pattern.step -= 1;
             displayPattern();
 
-        } else if (tag.equals("next")) {
+        } else if (tag.equals("next") || tag.equals("pattern_display")) {
             pattern.step += 1;
             displayPattern();
         }
