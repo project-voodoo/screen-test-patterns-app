@@ -122,7 +122,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         saturationLevelsSpinner.setAdapter(saturationLevelsAdapter);
         setSpinnerValue(
                 saturationLevelsSpinner,
-                settings.getInt("saturation_levels", pattern.saturationLevels));
+                settings.getInt("saturations_levels", pattern.saturationLevels));
         saturationLevelsSpinner.setOnItemSelectedListener(this);
 
         // Informs users of the current pattern displayed
