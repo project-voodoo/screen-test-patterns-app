@@ -3,7 +3,7 @@ Screen Test Pattern Android Application:
 by François SIMOND aka supercurio
 
 This app display simple colors on your Android device screen.
-Those colors are then measured by a calibrator or spectrophotometer
+Those colors are then measured by a colorimeter or spectrophotometer
 in order to build graphs or color profiles.
 
 I recommend using free software Color HCFR:
@@ -11,5 +11,9 @@ I recommend using free software Color HCFR:
 but I guess alternative solutions like Calman or ChromaPure are fine.
 
 Current version hosts only a tablet layout.
+
+Requirements:
+- A computer
+- A colorimeter or spectrophotometer
 
 See COPYING for license stuff.
