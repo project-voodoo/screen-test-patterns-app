@@ -1,19 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="org.projectvoodoo.screentestpatterns"
-      android:versionName="1.1" android:versionCode="3">
-    <uses-sdk android:targetSdkVersion="12" android:minSdkVersion="4"></uses-sdk>
-    <supports-screens android:smallScreens="false" android:largeScreens="false" android:normalScreens="false"></supports-screens>
+    package="org.projectvoodoo.screentestpatterns"
+    android:versionCode="3"
+    android:versionName="1.1" >
 
+    <uses-sdk
+        android:minSdkVersion="4"
+        android:targetSdkVersion="12" >
+    </uses-sdk>
 
-    <application android:icon="@drawable/icon" android:label="@string/app_name" android:hardwareAccelerated="true">
-        <activity android:name=".Main"
-                  android:label="@string/app_name">
-            <intent-filter>
+    <supports-screens
+        android:largeScreens="false"
+        android:normalScreens="false"
+        android:smallScreens="false" >
+    </supports-screens>
+
+    <application
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name" >
+        <activity
+            android:label="@string/app_name"
+            android:name=".Main" >
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
+
 </manifest>

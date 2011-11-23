@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="saturation_table_cyan">
         <item>228 228 228</item>
         <item>222 230 230</item>

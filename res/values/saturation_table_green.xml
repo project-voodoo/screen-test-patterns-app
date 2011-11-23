@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="saturation_table_green">
         <item>219 219 219</item>
         <item>208 223 208</item>

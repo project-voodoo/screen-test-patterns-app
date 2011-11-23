@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string-array name="saturation_table_blue">
         <item>78 78 78</item>
         <item>77 77 83</item>

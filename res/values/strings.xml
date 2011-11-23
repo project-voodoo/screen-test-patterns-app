@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Screen Test Patterns</string>
     <string name="next">Next</string>
     <string name="prev">Prev</string>
-
-	<string name="grayscale">N° of Grayscale levels</string>
+    <string name="grayscale">N° of Grayscale levels</string>
     <string name="grayscale_prompt">Number of grayscale levels</string>
+
     <string-array name="grayscale_array">
         <item>4</item>
         <item>10</item>
@@ -15,8 +16,9 @@
         <item>128</item>
     </string-array>
 
-	<string name="near_black">N° of Near Black levels</string>
+    <string name="near_black">N° of Near Black levels</string>
     <string name="near_black_prompt">Number of near black levels</string>
+
     <string-array name="near_black_array">
         <item>4</item>
         <item>6</item>
@@ -24,8 +26,9 @@
         <item>10</item>
     </string-array>
 
-	<string name="near_white">N° of Near White levels</string>
+    <string name="near_white">N° of Near White levels</string>
     <string name="near_white_prompt">Number of near white levels</string>
+
     <string-array name="near_white_array">
         <item>4</item>
         <item>6</item>
@@ -33,17 +36,19 @@
         <item>10</item>
     </string-array>
 
-	<string name="saturations">N° of Saturation levels</string>
+    <string name="saturations">N° of Saturation levels</string>
     <string name="saturations_prompt">Number of saturation levels</string>
+
     <string-array name="saturations_array">
         <item>4</item>
         <item>8</item>
         <item>16</item>
     </string-array>
-        <string name="button_grayscale">Grayscale</string>
-        <string name="button_colors">All Colors</string>
-        <string name="button_saturations">Saturations</string>
-        <string name="button_near_black">Near Black</string>
-        <string name="button_near_white">Near White</string>
+
+    <string name="button_grayscale">Grayscale</string>
+    <string name="button_colors">All Colors</string>
+    <string name="button_saturations">Saturations</string>
+    <string name="button_near_black">Near Black</string>
+    <string name="button_near_white">Near White</string>
 
 </resources>
