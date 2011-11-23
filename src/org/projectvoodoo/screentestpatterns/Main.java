@@ -30,6 +30,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -47,6 +49,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
     private Spinner nearBlackLevelsSpinner;
     private Spinner nearWhiteLevelsSpinner;
     private Spinner saturationLevelsSpinner;
+    private Spinner patternTypeSpinner;
     private TextView currentPatternInfos;
 
     private Button setGrayscale;
@@ -57,6 +60,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
     private Button next;
     private Button prev;
+
+    private Boolean isTablet = false;
 
     SharedPreferences settings;
 
@@ -70,8 +75,16 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         // preference manager
         settings = getSharedPreferences("hcfr", MODE_PRIVATE);
 
+        // keep screen always on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         // select layout first
-        setContentView(R.layout.main);
+        if (isTablet)
+            setContentView(R.layout.main);
+        else
+            setContentView(R.layout.phone);
 
         // we will display the stuff here
         patternView = (View) findViewById(R.id.pattern_display);
@@ -80,66 +93,81 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         patternView.setBackgroundDrawable(display);
         patternView.setOnClickListener(this);
 
-        // configure spinners
-        // For grayscale measurements
-        grayscaleLevelsSpinner = (Spinner) findViewById(R.id.spinner_grayscale_levels);
-        ArrayAdapter<CharSequence> grayscaleAdapter = ArrayAdapter.createFromResource(this,
-                R.array.grayscale_array, android.R.layout.simple_spinner_item);
-        grayscaleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        grayscaleLevelsSpinner.setAdapter(grayscaleAdapter);
-        setSpinnerValue(
-                grayscaleLevelsSpinner,
-                settings.getInt("grayscale_levels", pattern.grayscaleLevels));
-        grayscaleLevelsSpinner.setOnItemSelectedListener(this);
+        if (isTablet) {
+            // configure spinners
+            // For grayscale measurements
+            grayscaleLevelsSpinner = (Spinner) findViewById(R.id.spinner_grayscale_levels);
+            ArrayAdapter<CharSequence> grayscaleAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.grayscale_array, android.R.layout.simple_spinner_item);
+            grayscaleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            grayscaleLevelsSpinner.setAdapter(grayscaleAdapter);
+            setSpinnerValue(
+                    grayscaleLevelsSpinner,
+                    settings.getInt("grayscale_levels", pattern.grayscaleLevels));
+            grayscaleLevelsSpinner.setOnItemSelectedListener(this);
 
-        // For near black measurements
-        nearBlackLevelsSpinner = (Spinner) findViewById(R.id.spinner_near_black_levels);
-        ArrayAdapter<CharSequence> blackLevelsAdapter = ArrayAdapter.createFromResource(this,
-                R.array.near_black_array, android.R.layout.simple_spinner_item);
-        blackLevelsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        nearBlackLevelsSpinner.setAdapter(blackLevelsAdapter);
-        setSpinnerValue(
-                nearBlackLevelsSpinner,
-                settings.getInt("near_black_levels", pattern.nearBlackLevels));
-        nearBlackLevelsSpinner.setOnItemSelectedListener(this);
+            // For near black measurements
+            nearBlackLevelsSpinner = (Spinner) findViewById(R.id.spinner_near_black_levels);
+            ArrayAdapter<CharSequence> blackLevelsAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.near_black_array, android.R.layout.simple_spinner_item);
+            blackLevelsAdapter
+                    .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            nearBlackLevelsSpinner.setAdapter(blackLevelsAdapter);
+            setSpinnerValue(
+                    nearBlackLevelsSpinner,
+                    settings.getInt("near_black_levels", pattern.nearBlackLevels));
+            nearBlackLevelsSpinner.setOnItemSelectedListener(this);
 
-        // For near white measurements
-        nearWhiteLevelsSpinner = (Spinner) findViewById(R.id.spinner_near_white_levels);
-        ArrayAdapter<CharSequence> whiteLevelsAdapter = ArrayAdapter.createFromResource(this,
-                R.array.near_white_array, android.R.layout.simple_spinner_item);
-        whiteLevelsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        nearWhiteLevelsSpinner.setAdapter(whiteLevelsAdapter);
-        setSpinnerValue(
-                nearWhiteLevelsSpinner,
-                settings.getInt("near_white_levels", pattern.nearWhiteLevels));
-        nearWhiteLevelsSpinner.setOnItemSelectedListener(this);
+            // For near white measurements
+            nearWhiteLevelsSpinner = (Spinner) findViewById(R.id.spinner_near_white_levels);
+            ArrayAdapter<CharSequence> whiteLevelsAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.near_white_array, android.R.layout.simple_spinner_item);
+            whiteLevelsAdapter
+                    .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            nearWhiteLevelsSpinner.setAdapter(whiteLevelsAdapter);
+            setSpinnerValue(
+                    nearWhiteLevelsSpinner,
+                    settings.getInt("near_white_levels", pattern.nearWhiteLevels));
+            nearWhiteLevelsSpinner.setOnItemSelectedListener(this);
 
-        // For saturation measurements
-        saturationLevelsSpinner = (Spinner) findViewById(R.id.spinner_saturation_levels);
-        ArrayAdapter<CharSequence> saturationLevelsAdapter = ArrayAdapter.createFromResource(this,
-                R.array.saturations_array, android.R.layout.simple_spinner_item);
-        saturationLevelsAdapter.setDropDownViewResource(
+            // For saturation measurements
+            saturationLevelsSpinner = (Spinner) findViewById(R.id.spinner_saturation_levels);
+            ArrayAdapter<CharSequence> saturationLevelsAdapter = ArrayAdapter.createFromResource(
+                    this,
+                    R.array.saturations_array, android.R.layout.simple_spinner_item);
+            saturationLevelsAdapter.setDropDownViewResource(
                         android.R.layout.simple_spinner_dropdown_item);
-        saturationLevelsSpinner.setAdapter(saturationLevelsAdapter);
-        setSpinnerValue(
-                saturationLevelsSpinner,
-                settings.getInt("saturations_levels", pattern.saturationLevels));
-        saturationLevelsSpinner.setOnItemSelectedListener(this);
+            saturationLevelsSpinner.setAdapter(saturationLevelsAdapter);
+            setSpinnerValue(
+                    saturationLevelsSpinner,
+                    settings.getInt("saturations_levels", pattern.saturationLevels));
+            saturationLevelsSpinner.setOnItemSelectedListener(this);
+
+            // Buttons
+            setGrayscale = (Button) findViewById(R.id.button_grayscale);
+            setGrayscale.setOnClickListener(this);
+            setNearBlack = (Button) findViewById(R.id.button_near_black);
+            setNearBlack.setOnClickListener(this);
+            setNearWhite = (Button) findViewById(R.id.button_near_white);
+            setNearWhite.setOnClickListener(this);
+            setColors = (Button) findViewById(R.id.button_colors);
+            setColors.setOnClickListener(this);
+            setSaturations = (Button) findViewById(R.id.button_saturations);
+            setSaturations.setOnClickListener(this);
+        } else {
+
+            patternTypeSpinner = (Spinner) findViewById(R.id.spinner_pattern_type);
+            ArrayAdapter<CharSequence> patternTypesAdapter = ArrayAdapter.createFromResource(this,
+                    R.array.pattern_types_array, android.R.layout.simple_spinner_item);
+            patternTypesAdapter
+                    .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            patternTypeSpinner.setAdapter(patternTypesAdapter);
+            patternTypeSpinner.setOnItemSelectedListener(this);
+
+        }
 
         // Informs users of the current pattern displayed
         currentPatternInfos = (TextView) findViewById(R.id.current_pattern_info);
-
-        // Buttons
-        setGrayscale = (Button) findViewById(R.id.button_grayscale);
-        setGrayscale.setOnClickListener(this);
-        setNearBlack = (Button) findViewById(R.id.button_near_black);
-        setNearBlack.setOnClickListener(this);
-        setNearWhite = (Button) findViewById(R.id.button_near_white);
-        setNearWhite.setOnClickListener(this);
-        setColors = (Button) findViewById(R.id.button_colors);
-        setColors.setOnClickListener(this);
-        setSaturations = (Button) findViewById(R.id.button_saturations);
-        setSaturations.setOnClickListener(this);
 
         prev = (Button) findViewById(R.id.button_prev);
         prev.setOnClickListener(this);
@@ -226,10 +254,10 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         try {
-            int value = Integer.parseInt((String) arg0.getAdapter().getItem(arg2));
-            String tag = arg0.getTag() + "";
+            int value = Integer.parseInt((String) parent.getAdapter().getItem(pos));
+            String tag = parent.getTag() + "";
             Log.d("ScreenTestPatterns", tag + " item: " + value);
 
             // now save the preference
@@ -263,7 +291,44 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             editor.commit();
 
         } catch (Exception e) {
-            Log.d("ScreenTestPatterns", "Error: Invalid item selection");
+
+            switch (pos) {
+                case 0:
+                    pattern.type = PatternType.GRAYSCALE;
+                    pattern.step = 0;
+                    displayPattern();
+                    break;
+
+                case 1:
+                    pattern.type = PatternType.COLORS;
+                    pattern.step = 0;
+                    displayPattern();
+                    break;
+
+                case 2:
+                    pattern.type = PatternType.SATURATIONS;
+                    pattern.step = 0;
+                    displayPattern();
+                    break;
+
+                case 3:
+                    pattern.type = PatternType.NEAR_BLACK;
+                    pattern.step = 0;
+                    displayPattern();
+                    break;
+
+                case 4:
+                    pattern.type = PatternType.NEAR_WHITE;
+                    pattern.step = 0;
+                    displayPattern();
+                    break;
+
+                default:
+                    break;
+            }
+
+            Log.d("ScreenTestPatterns", "Error: Invalid item selection: "
+                    + parent.getAdapter().getItem(pos));
         }
     }
 

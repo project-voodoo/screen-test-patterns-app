@@ -50,5 +50,14 @@
     <string name="button_saturations">Saturations</string>
     <string name="button_near_black">Near Black</string>
     <string name="button_near_white">Near White</string>
+    <string name="detailed_infos">Current Pattern:\nDetailed Infos</string>
+
+    <string-array name="pattern_types_array">
+        <item>Grayscale</item>
+        <item>All Colors</item>
+        <item>Saturations</item>
+        <item>Near Black</item>
+        <item>Near White</item>
+    </string-array>
 
 </resources>

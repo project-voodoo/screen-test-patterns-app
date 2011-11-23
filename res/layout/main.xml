@@ -111,7 +111,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="10dip"
             android:paddingTop="10dip"
-            android:text="Current Pattern:\nDetailed Infos" >
+            android:text="@string/detailed_infos" >
         </TextView>
 
         <LinearLayout
