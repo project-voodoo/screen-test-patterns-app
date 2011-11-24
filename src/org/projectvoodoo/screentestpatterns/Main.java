@@ -222,6 +222,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
         display.getPaint().setColor(pattern.getColor());
         patternView.setBackgroundDrawable(display);
+        patternView.invalidate();
         showCurrentPatternInfos();
 
     }
