@@ -194,6 +194,29 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         next = (Button) findViewById(R.id.button_next);
         next.setOnClickListener(this);
 
+        loadPatternGeneratorConfig();
+
+    }
+
+    @Override
+    protected void onResume() {
+
+        loadPatternGeneratorConfig();
+
+        super.onResume();
+    }
+
+    private void loadPatternGeneratorConfig() {
+        // load pattern generator config from preferences
+        pattern.grayscaleLevels = Integer.parseInt(settings.getString("grayscale_levels",
+                pattern.grayscaleLevels + ""));
+        pattern.nearBlackLevels = Integer.parseInt(settings.getString("near_black_levels",
+                pattern.nearBlackLevels + ""));
+        pattern.nearWhiteLevels = Integer.parseInt(settings.getString("near_white_levels",
+                pattern.nearWhiteLevels + ""));
+        pattern.saturationLevels = Integer.parseInt(settings.getString("saturations_levels",
+                pattern.saturationLevels + ""));
+
     }
 
     @Override
