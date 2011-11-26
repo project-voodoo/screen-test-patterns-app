@@ -22,12 +22,16 @@ package org.projectvoodoo.screentestpatterns;
 import org.projectvoodoo.screentestpatterns.Patterns.PatternType;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -40,6 +44,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class Main extends Activity implements OnClickListener, OnItemSelectedListener {
+
+    private static final String TAG = "Voodoo ScreenTestPatterns";
 
     Patterns pattern;
 
@@ -61,7 +67,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
     private Button next;
     private Button prev;
 
-    private Boolean isTablet = false;
+    private Boolean isTablet = true;
 
     SharedPreferences settings;
 
@@ -73,12 +79,13 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         pattern = new Patterns(this);
 
         // preference manager
-        settings = getSharedPreferences("hcfr", MODE_PRIVATE);
+        settings = getSharedPreferences(PatternGeneratorOptions.prefName, MODE_PRIVATE);
 
         // keep screen always on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (!isTablet)
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // select layout first
         if (isTablet)
@@ -103,7 +110,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             grayscaleLevelsSpinner.setAdapter(grayscaleAdapter);
             setSpinnerValue(
                     grayscaleLevelsSpinner,
-                    settings.getInt("grayscale_levels", pattern.grayscaleLevels));
+                    Integer.parseInt(settings.getString("grayscale_levels", pattern.grayscaleLevels
+                            + "")));
             grayscaleLevelsSpinner.setOnItemSelectedListener(this);
 
             // For near black measurements
@@ -115,7 +123,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             nearBlackLevelsSpinner.setAdapter(blackLevelsAdapter);
             setSpinnerValue(
                     nearBlackLevelsSpinner,
-                    settings.getInt("near_black_levels", pattern.nearBlackLevels));
+                    Integer.parseInt(settings.getString("near_black_levels",
+                            pattern.nearBlackLevels + "")));
             nearBlackLevelsSpinner.setOnItemSelectedListener(this);
 
             // For near white measurements
@@ -127,7 +136,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             nearWhiteLevelsSpinner.setAdapter(whiteLevelsAdapter);
             setSpinnerValue(
                     nearWhiteLevelsSpinner,
-                    settings.getInt("near_white_levels", pattern.nearWhiteLevels));
+                    Integer.parseInt(settings.getString("near_white_levels",
+                            pattern.nearWhiteLevels + "")));
             nearWhiteLevelsSpinner.setOnItemSelectedListener(this);
 
             // For saturation measurements
@@ -140,7 +150,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             saturationLevelsSpinner.setAdapter(saturationLevelsAdapter);
             setSpinnerValue(
                     saturationLevelsSpinner,
-                    settings.getInt("saturations_levels", pattern.saturationLevels));
+                    Integer.parseInt(settings.getString("saturations_levels",
+                            pattern.saturationLevels + "")));
             saturationLevelsSpinner.setOnItemSelectedListener(this);
 
             // Buttons
@@ -257,9 +268,10 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         try {
-            int value = Integer.parseInt((String) parent.getAdapter().getItem(pos));
+            String valueStr = (String) parent.getAdapter().getItem(pos);
+            int value = Integer.parseInt(valueStr);
             String tag = parent.getTag() + "";
-            Log.d("ScreenTestPatterns", tag + " item: " + value);
+            Log.d("ScreenTestPatterns", tag + " item: " + valueStr);
 
             // now save the preference
             SharedPreferences.Editor editor = settings.edit();
@@ -269,25 +281,25 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
                 pattern.grayscaleLevels = value;
                 pattern.step = 0;
                 displayPattern();
-                editor.putInt(name, value);
+                editor.putString(name, valueStr);
 
             } else if (tag.equals("near_black")) {
                 pattern.nearBlackLevels = value;
                 pattern.step = 0;
                 displayPattern();
-                editor.putInt(name, value);
+                editor.putString(name, valueStr);
 
             } else if (tag.equals("near_white")) {
                 pattern.nearWhiteLevels = value;
                 pattern.step = 0;
                 displayPattern();
-                editor.putInt(name, value);
+                editor.putString(name, valueStr);
 
             } else if (tag.equals("saturations")) {
                 pattern.saturationLevels = value;
                 pattern.step = 0;
                 displayPattern();
-                editor.putInt(name, value);
+                editor.putString(name, valueStr);
             }
             editor.commit();
 
@@ -335,5 +347,28 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!isTablet) {
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.options, menu);
+            return true;
+        } else
+            return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.pattern_options:
+                Intent intent = new Intent(this, PatternGeneratorOptions.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

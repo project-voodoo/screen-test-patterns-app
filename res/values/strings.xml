@@ -60,4 +60,6 @@
         <item>Near White</item>
     </string-array>
 
+    <string name="pattern_config">Pattern generator configuration</string>
+
 </resources>

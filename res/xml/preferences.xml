@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/pattern_config" >
+
+        <ListPreference
+            android:dialogTitle="@string/grayscale_prompt"
+            android:entries="@array/grayscale_array"
+            android:entryValues="@array/grayscale_array"
+            android:key="grayscale_levels"
+            android:title="@string/grayscale" />
+
+        <ListPreference
+            android:dialogTitle="@string/near_black_prompt"
+            android:entries="@array/near_black_array"
+            android:entryValues="@array/near_black_array"
+            android:key="near_black_levels"
+            android:title="@string/near_black" />
+
+        <ListPreference
+            android:dialogTitle="@string/near_white_prompt"
+            android:entries="@array/near_white_array"
+            android:entryValues="@array/near_white_array"
+            android:key="near_white_levels"
+            android:title="@string/near_white" />
+
+        <ListPreference
+            android:dialogTitle="@string/saturations_prompt"
+            android:entries="@array/saturations_array"
+            android:entryValues="@array/saturations_array"
+            android:key="saturations_levels"
+            android:title="@string/saturations" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
