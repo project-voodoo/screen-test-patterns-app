@@ -46,7 +46,7 @@ import android.widget.TextView;
 
 public class Main extends Activity implements OnClickListener, OnItemSelectedListener {
 
-    private static final String TAG = "Voodoo ScreenTestPatterns";
+    private static final String TAG = "Voodoo ScreenTestPatterns Main";
 
     Patterns pattern;
 
@@ -172,6 +172,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             setColors.setOnClickListener(this);
             setSaturations = (Button) findViewById(R.id.button_saturations);
             setSaturations.setOnClickListener(this);
+
         } else {
 
             patternTypeSpinner = (Spinner) findViewById(R.id.spinner_pattern_type);

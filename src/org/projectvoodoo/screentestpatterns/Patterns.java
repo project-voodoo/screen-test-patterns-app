@@ -27,7 +27,7 @@ import android.util.Log;
 public class Patterns {
 
     private Context context;
-    private static final String TAG = "ScreenTestPatterns";
+    private static final String TAG = "Voodoo ScreenTestPatterns Patterns";
 
     // Measurement modes, with default to grayscale
     public static enum PatternType {
