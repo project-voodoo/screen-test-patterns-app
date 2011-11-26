@@ -28,6 +28,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,13 +68,19 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
     private Button next;
     private Button prev;
 
-    private Boolean isTablet = true;
+    private Boolean isTablet = false;
 
     SharedPreferences settings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // detect tablet screen size:
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        if (metrics.widthPixels >= 1280 || metrics.heightPixels >= 1280)
+            isTablet = true;
 
         // instantiate pattern engine
         pattern = new Patterns(this);
