@@ -41,11 +41,11 @@ public class Patterns {
     private static final int SATURATION_TABLE_LENGTH = 16;
 
     public PatternType type = PatternType.GRAYSCALE;
-    public int mStep = 0;
-    public int mGrayscaleLevels = 10;
-    public int mNearBlackLevels = 4;
-    public int mNearWhiteLevels = 4;
-    public int mSaturationLevels = 4;
+    public int step = 0;
+    public int grayscaleLevels = 10;
+    public int nearBlackLevels = 4;
+    public int nearWhiteLevels = 4;
+    public int saturationLevels = 4;
 
     public int mColor;
 
@@ -54,34 +54,34 @@ public class Patterns {
     }
 
     public void grayscale() {
-        if (mStep > mGrayscaleLevels)
-            mStep = 0;
-        if (mStep < 0)
-            mStep = mGrayscaleLevels;
-        int val = (int) ((float) 255 / mGrayscaleLevels * mStep + 0.5);
+        if (step > grayscaleLevels)
+            step = 0;
+        if (step < 0)
+            step = grayscaleLevels;
+        int val = (int) ((float) 255 / grayscaleLevels * step + 0.5);
         mColor = Color.rgb(val, val, val);
     }
 
     public void nearBlack() {
-        if (mStep > mNearBlackLevels || mStep < 0)
-            mStep = 0;
-        if (mStep < 0)
-            mStep = mNearBlackLevels;
-        int val = (int) ((float) 255 / 100 * mStep + 0.5);
+        if (step > nearBlackLevels || step < 0)
+            step = 0;
+        if (step < 0)
+            step = nearBlackLevels;
+        int val = (int) ((float) 255 / 100 * step + 0.5);
         mColor = Color.rgb(val, val, val);
     }
 
     public void nearWhite() {
-        if (mStep > mNearWhiteLevels || mStep < 0)
-            mStep = 0;
-        if (mStep < 0)
-            mStep = mNearWhiteLevels;
-        int val = (int) ((float) 255 * (100 - mNearWhiteLevels + mStep) / 100);
+        if (step > nearWhiteLevels || step < 0)
+            step = 0;
+        if (step < 0)
+            step = nearWhiteLevels;
+        int val = (int) ((float) 255 * (100 - nearWhiteLevels + step) / 100);
         mColor = Color.rgb(val, val, val);
     }
 
     private void colors() {
-        switch (mStep) {
+        switch (step) {
             case 0:
                 mColor = Color.RED;
                 return;
@@ -104,7 +104,7 @@ public class Patterns {
                 mColor = Color.WHITE;
                 return;
             default:
-                mStep = 0;
+                step = 0;
                 colors();
                 return;
         }
@@ -112,46 +112,46 @@ public class Patterns {
 
     private void saturations() {
 
-        int range = mSaturationLevels + 1;
+        int range = saturationLevels + 1;
 
         // allow looping via Prev button
-        if (mStep < 0)
-            mStep = (range * 6) - 1;
+        if (step < 0)
+            step = (range * 6) - 1;
 
-        int skip = SATURATION_TABLE_LENGTH / mSaturationLevels;
-        int offset = (mStep % range) * skip;
+        int skip = SATURATION_TABLE_LENGTH / saturationLevels;
+        int offset = (step % range) * skip;
 
-        if (mStep >= 0 && mStep < range) {
+        if (step >= 0 && step < range) {
 
             Log.i(TAG, "Red satuation");
             mColor = getColorFromSaturationTable(R.array.saturation_table_red, offset);
 
-        } else if (mStep < (range * 2)) {
+        } else if (step < (range * 2)) {
 
             Log.i(TAG, "Green satuation");
             mColor = getColorFromSaturationTable(R.array.saturation_table_green, offset);
 
-        } else if (mStep < (range * 3)) {
+        } else if (step < (range * 3)) {
 
             Log.i(TAG, "Blue satuation");
             mColor = getColorFromSaturationTable(R.array.saturation_table_blue, offset);
 
-        } else if (mStep < (range * 4)) {
+        } else if (step < (range * 4)) {
 
             Log.i(TAG, "Yellow satuation");
             mColor = getColorFromSaturationTable(R.array.saturation_table_yellow, offset);
 
-        } else if (mStep < (range * 5)) {
+        } else if (step < (range * 5)) {
 
             Log.i(TAG, "Cyan satuation");
             mColor = getColorFromSaturationTable(R.array.saturation_table_cyan, offset);
 
-        } else if (mStep < (range * 6)) {
+        } else if (step < (range * 6)) {
 
             Log.i(TAG, "Magenta satuation");
             mColor = getColorFromSaturationTable(R.array.saturation_table_magenta, offset);
         } else {
-            mStep = 0;
+            step = 0;
             saturations();
         }
         Log.i(TAG, "Offset: " + offset);
@@ -207,7 +207,7 @@ public class Patterns {
     }
 
     private void logColor(int color) {
-        Log.i(TAG, "Step: " + mStep);
+        Log.i(TAG, "Step: " + step);
         Log.i(TAG, "Red: " + Color.red(color)
                 + " Green: " + Color.green(color)
                 + " Blue: " + Color.blue(color));

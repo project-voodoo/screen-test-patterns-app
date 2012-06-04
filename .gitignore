@@ -12,6 +12,6 @@
 gen/
 
 proguard/
-bin/res
+bin/
 lint.xml
 .classpath

@@ -43,7 +43,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class Main extends Activity implements OnClickListener, OnItemSelectedListener {
+public class Main extends Activity implements OnClickListener {
 
     @SuppressWarnings("unused")
     private static final String TAG = "Voodoo ScreenTestPatterns Main";
@@ -98,7 +98,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
         // select layout first
         if (mIsTablet)
-            setContentView(R.layout.main);
+            setContentView(R.layout.tablet);
         else
             setContentView(R.layout.phone);
 
@@ -122,8 +122,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             setSpinnerValue(
                     mGrayscaleLevelsSpinner,
                     Integer.parseInt(mSettings.getString(KEY_GRAYSCALE_LEVELS,
-                            mPattern.mGrayscaleLevels + "")));
-            mGrayscaleLevelsSpinner.setOnItemSelectedListener(this);
+                            mPattern.grayscaleLevels + "")));
+            mGrayscaleLevelsSpinner.setOnItemSelectedListener(optionsListener);
 
             // For near black measurements
             mNearBlackLevelsSpinner = (Spinner) findViewById(R.id.spinner_near_black_levels);
@@ -137,8 +137,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             setSpinnerValue(
                     mNearBlackLevelsSpinner,
                     Integer.parseInt(mSettings.getString(KEY_NEAR_BLACK_LEVELS,
-                            mPattern.mNearBlackLevels + "")));
-            mNearBlackLevelsSpinner.setOnItemSelectedListener(this);
+                            mPattern.nearBlackLevels + "")));
+            mNearBlackLevelsSpinner.setOnItemSelectedListener(optionsListener);
 
             // For near white measurements
             mNearWhiteLevelsSpinner = (Spinner) findViewById(R.id.spinner_near_white_levels);
@@ -152,8 +152,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             setSpinnerValue(
                     mNearWhiteLevelsSpinner,
                     Integer.parseInt(mSettings.getString(KEY_NEAR_WHITE_LEVELS,
-                            mPattern.mNearWhiteLevels + "")));
-            mNearWhiteLevelsSpinner.setOnItemSelectedListener(this);
+                            mPattern.nearWhiteLevels + "")));
+            mNearWhiteLevelsSpinner.setOnItemSelectedListener(optionsListener);
 
             // For saturation measurements
             mSaturationLevelsSpinner = (Spinner) findViewById(R.id.spinner_saturation_levels);
@@ -167,8 +167,8 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             setSpinnerValue(
                     mSaturationLevelsSpinner,
                     Integer.parseInt(mSettings.getString(KEY_SATURATION_LEVELS,
-                            mPattern.mSaturationLevels + "")));
-            mSaturationLevelsSpinner.setOnItemSelectedListener(this);
+                            mPattern.saturationLevels + "")));
+            mSaturationLevelsSpinner.setOnItemSelectedListener(optionsListener);
 
             // Buttons
             mSetGrayscale = (Button) findViewById(R.id.button_grayscale);
@@ -192,8 +192,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             patternTypesAdapter.setDropDownViewResource(
                     android.R.layout.simple_spinner_dropdown_item);
             mPatternTypeSpinner.setAdapter(patternTypesAdapter);
-            mPatternTypeSpinner.setOnItemSelectedListener(this);
-
+            mPatternTypeSpinner.setOnItemSelectedListener(patternChoiceListener);
         }
 
         // Informs users of the current pattern displayed
@@ -218,14 +217,14 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
     private void loadPatternGeneratorConfig() {
         // load pattern generator config from preferences
-        mPattern.mGrayscaleLevels = Integer.parseInt(mSettings.getString(KEY_GRAYSCALE_LEVELS,
-                mPattern.mGrayscaleLevels + ""));
-        mPattern.mNearBlackLevels = Integer.parseInt(mSettings.getString(KEY_NEAR_BLACK_LEVELS,
-                mPattern.mNearBlackLevels + ""));
-        mPattern.mNearWhiteLevels = Integer.parseInt(mSettings.getString(KEY_NEAR_WHITE_LEVELS,
-                mPattern.mNearWhiteLevels + ""));
-        mPattern.mSaturationLevels = Integer.parseInt(mSettings.getString(KEY_SATURATION_LEVELS,
-                mPattern.mSaturationLevels + ""));
+        mPattern.grayscaleLevels = Integer.parseInt(mSettings.getString(KEY_GRAYSCALE_LEVELS,
+                mPattern.grayscaleLevels + ""));
+        mPattern.nearBlackLevels = Integer.parseInt(mSettings.getString(KEY_NEAR_BLACK_LEVELS,
+                mPattern.nearBlackLevels + ""));
+        mPattern.nearWhiteLevels = Integer.parseInt(mSettings.getString(KEY_NEAR_WHITE_LEVELS,
+                mPattern.nearWhiteLevels + ""));
+        mPattern.saturationLevels = Integer.parseInt(mSettings.getString(KEY_SATURATION_LEVELS,
+                mPattern.saturationLevels + ""));
     }
 
     @Override
@@ -234,39 +233,39 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         switch (v.getId()) {
             case R.id.button_grayscale:
                 mPattern.type = PatternType.GRAYSCALE;
-                mPattern.mStep = 0;
+                mPattern.step = 0;
                 break;
 
             case R.id.button_near_black:
                 mPattern.type = PatternType.NEAR_BLACK;
-                mPattern.mStep = 0;
+                mPattern.step = 0;
                 break;
 
             case R.id.button_near_white:
                 mPattern.type = PatternType.NEAR_WHITE;
-                mPattern.mStep = 0;
+                mPattern.step = 0;
                 break;
 
             case R.id.button_colors:
                 mPattern.type = PatternType.COLORS;
-                mPattern.mStep = 0;
+                mPattern.step = 0;
                 break;
 
             case R.id.button_saturations:
                 mPattern.type = PatternType.SATURATIONS;
-                mPattern.mStep = 0;
+                mPattern.step = 0;
                 break;
 
             case R.id.button_prev:
-                mPattern.mStep -= 1;
+                mPattern.step -= 1;
                 break;
 
             case R.id.button_next:
-                mPattern.mStep += 1;
+                mPattern.step += 1;
                 break;
 
             case R.id.pattern_display:
-                mPattern.mStep += 1;
+                mPattern.step += 1;
                 break;
 
         }
@@ -286,7 +285,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         String text = mPattern.type + " ";
         if (mPattern.type == PatternType.GRAYSCALE)
             text += "IRE " +
-                    (int) ((float) 100 / mPattern.mGrayscaleLevels * mPattern.mStep) + "\n";
+                    (int) ((float) 100 / mPattern.grayscaleLevels * mPattern.step) + "\n";
         else
             text += "\n";
 
@@ -311,9 +310,11 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        try {
+    OnItemSelectedListener optionsListener = new OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
+
             String valueStr = (String) parent.getAdapter().getItem(pos);
             int value = Integer.parseInt(valueStr);
 
@@ -321,38 +322,73 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
 
             switch (parent.getId()) {
                 case R.id.spinner_grayscale_levels:
-                    mPattern.mGrayscaleLevels = value;
+                    mPattern.grayscaleLevels = value;
                     editor.putString(KEY_GRAYSCALE_LEVELS, valueStr);
                     break;
 
                 case R.id.spinner_near_black_levels:
-                    mPattern.mNearBlackLevels = value;
+                    mPattern.nearBlackLevels = value;
                     editor.putString(KEY_NEAR_BLACK_LEVELS, valueStr);
                     break;
 
                 case R.id.spinner_near_white_levels:
-                    mPattern.mNearWhiteLevels = value;
+                    mPattern.nearWhiteLevels = value;
                     editor.putString(KEY_NEAR_WHITE_LEVELS, valueStr);
                     break;
 
                 case R.id.spinner_saturation_levels:
-                    mPattern.mSaturationLevels = value;
+                    mPattern.saturationLevels = value;
                     editor.putString(KEY_SATURATION_LEVELS, valueStr);
                     break;
+
             }
 
-            mPattern.mStep = 0;
+            mPattern.step = 0;
             editor.commit();
             displayPattern();
 
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> arg0) {
-    }
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+        }
+    };
+
+    OnItemSelectedListener patternChoiceListener = new OnItemSelectedListener() {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View v, int pos, long id) {
+
+            switch (pos) {
+                case 0:
+                    mPattern.type = PatternType.GRAYSCALE;
+                    break;
+
+                case 1:
+                    mPattern.type = PatternType.COLORS;
+                    break;
+
+                case 2:
+                    mPattern.type = PatternType.SATURATIONS;
+                    break;
+
+                case 3:
+                    mPattern.type = PatternType.NEAR_BLACK;
+                    break;
+
+                case 4:
+                    mPattern.type = PatternType.NEAR_WHITE;
+                    break;
+            }
+
+            mPattern.step = 0;
+            displayPattern();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> arg0) {
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
