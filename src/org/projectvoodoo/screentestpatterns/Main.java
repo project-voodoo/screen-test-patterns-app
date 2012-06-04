@@ -24,12 +24,11 @@ import org.projectvoodoo.screentestpatterns.Patterns.PatternType;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -83,10 +82,7 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
         super.onCreate(savedInstanceState);
 
         // detect tablet screen size:
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        if (metrics.widthPixels >= 1280 || metrics.heightPixels >= 1280)
-            mIsTablet = true;
+        mIsTablet = isTablet();
 
         // instantiate pattern engine
         mPattern = new Patterns(this);
@@ -379,5 +375,12 @@ public class Main extends Activity implements OnClickListener, OnItemSelectedLis
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private boolean isTablet() {
+        int layout = getResources().getConfiguration().screenLayout;
+        boolean xlarge = ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean large = ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
     }
 }
