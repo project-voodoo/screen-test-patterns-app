@@ -3,107 +3,83 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
-
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_margin="5dip"
         android:orientation="vertical" >
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/grayscale" >
         </TextView>
-
         <Spinner
             android:id="@+id/spinner_grayscale_levels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:prompt="@string/grayscale_prompt"
-            android:tag="grayscale" >
+            android:prompt="@string/grayscale_prompt" >
         </Spinner>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/near_black" >
         </TextView>
-
         <Spinner
             android:id="@+id/spinner_near_black_levels"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="near_black" >
+            android:layout_height="wrap_content" >
         </Spinner>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/near_white" >
         </TextView>
-
         <Spinner
             android:id="@+id/spinner_near_white_levels"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="near_white" >
+            android:layout_height="wrap_content" >
         </Spinner>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/saturations" >
         </TextView>
-
         <Spinner
             android:id="@+id/spinner_saturation_levels"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:tag="saturations" >
+            android:layout_height="wrap_content" >
         </Spinner>
-
         <Button
             android:id="@+id/button_grayscale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="grayscale"
             android:text="@string/button_grayscale" >
         </Button>
-
         <Button
             android:id="@+id/button_near_black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="near_black"
             android:text="@string/button_near_black" >
         </Button>
-
         <Button
             android:id="@+id/button_near_white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="near_white"
             android:text="@string/button_near_white" >
         </Button>
-
         <Button
             android:id="@+id/button_colors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="colors"
             android:text="@string/button_colors" >
         </Button>
-
         <Button
             android:id="@+id/button_saturations"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:tag="saturations"
             android:text="@string/button_saturations" >
         </Button>
-
         <TextView
             android:id="@+id/current_pattern_info"
             android:layout_width="match_parent"
@@ -113,7 +89,6 @@
             android:paddingTop="10dip"
             android:text="@string/detailed_infos" >
         </TextView>
-
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="wrap_content"
@@ -121,32 +96,25 @@
             android:layout_gravity="top"
             android:baselineAligned="true"
             android:orientation="horizontal" >
-
             <Button
                 android:id="@+id/button_prev"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                android:tag="prev"
                 android:text="@string/prev" >
             </Button>
-
             <Button
                 android:id="@+id/button_next"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                android:tag="next"
                 android:text="@string/next" >
             </Button>
         </LinearLayout>
     </LinearLayout>
-
     <View
         android:id="@+id/pattern_display"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:tag="pattern_display" >
+        android:layout_height="wrap_content" >
     </View>
-
 </LinearLayout>

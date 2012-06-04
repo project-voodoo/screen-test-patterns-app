@@ -9,7 +9,8 @@
 *.class
 
 # generated GUI files
-*R.java
+gen/
 
 proguard/
 bin/res
+lint.xml
