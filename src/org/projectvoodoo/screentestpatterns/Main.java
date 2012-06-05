@@ -224,7 +224,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
         mBrightness = (Button) findViewById(R.id.button_brightness);
         mBrightness.setOnClickListener(this);
-        setBrightness(mSettings.getInt(KEY_BRIGHTNESS, 127));
+        setBrightness(mSettings.getInt(KEY_BRIGHTNESS, 127), false);
         setBrightnessButton();
 
         loadPatternGeneratorConfig();
@@ -371,7 +371,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
             }
 
             mPattern.step = 0;
-            editor.apply();
+            editor.commit();
             displayPattern();
 
         }
@@ -465,12 +465,12 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
     private boolean isTablet() {
         int layout = getResources().getConfiguration().screenLayout;
-        boolean xlarge = ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean xlarge = ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
         boolean large = ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
         return (xlarge || large);
     }
 
-    private void setBrightness(int brightness) {
+    private void setBrightness(int brightness, boolean record) {
 
         float brightnessValue = (float) brightness / 255;
         if (brightnessValue == 0)
@@ -483,9 +483,10 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
         setBrightnessButton();
 
         mBrightnessValue = brightness;
-        mSettings.edit()
-                .putInt(KEY_BRIGHTNESS, brightness)
-                .apply();
+        if (record)
+            mSettings.edit()
+                    .putInt(KEY_BRIGHTNESS, brightness)
+                    .commit();
     }
 
     private void setBrightnessButton() {
@@ -499,7 +500,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         if (fromUser) {
             Log.i(TAG, "Change brightness to: " + progress);
-            setBrightness(progress);
+            setBrightness(progress, false);
         }
     }
 
@@ -509,7 +510,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-        setBrightness(seekBar.getProgress());
+        setBrightness(seekBar.getProgress(), true);
     }
 
     View.OnClickListener brightnessClickReceiver = new OnClickListener() {
@@ -519,9 +520,9 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
             if (mBrightnessSeek != null) {
                 int value = 100;
+
                 switch (v.getId()) {
                     case R.id.button_bright_0:
-                        setBrightness(0);
                         value = 0;
                         break;
 
@@ -546,7 +547,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
                         break;
                 }
 
-                setBrightness(value);
+                setBrightness(value, true);
                 mBrightnessSeek.setProgress(value);
                 setBrightnessButton();
             }
