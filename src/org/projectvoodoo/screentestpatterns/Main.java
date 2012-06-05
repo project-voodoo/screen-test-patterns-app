@@ -22,6 +22,7 @@ package org.projectvoodoo.screentestpatterns;
 import org.projectvoodoo.screentestpatterns.Patterns.PatternType;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -29,6 +30,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,10 +42,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class Main extends Activity implements OnClickListener {
+public class Main extends Activity implements OnClickListener, OnSeekBarChangeListener {
 
     @SuppressWarnings("unused")
     private static final String TAG = "Voodoo ScreenTestPatterns Main";
@@ -52,6 +56,7 @@ public class Main extends Activity implements OnClickListener {
     private static final String KEY_NEAR_WHITE_LEVELS = "near_white_levels";
     private static final String KEY_NEAR_BLACK_LEVELS = "near_black_levels";
     private static final String KEY_SATURATION_LEVELS = "saturations_levels";
+    private static final String KEY_BRIGHTNESS = "brightness";
 
     private Patterns mPattern;
 
@@ -73,9 +78,22 @@ public class Main extends Activity implements OnClickListener {
     private Button mNnext;
     private Button mPrev;
 
+    private Button mBrightness;
+    private SeekBar mBrightnessSeek;
+    private int mBrightnessValue;
+
+    private static final int[] BRIGHTNESS_BUTTONS = {
+            R.id.button_bright_0,
+            R.id.button_bright_25,
+            R.id.button_bright_50,
+            R.id.button_bright_65,
+            R.id.button_bright_75,
+            R.id.button_bright_100,
+    };
+
     private Boolean mIsTablet = false;
 
-    SharedPreferences mSettings;
+    private SharedPreferences mSettings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -204,6 +222,11 @@ public class Main extends Activity implements OnClickListener {
         mNnext = (Button) findViewById(R.id.button_next);
         mNnext.setOnClickListener(this);
 
+        mBrightness = (Button) findViewById(R.id.button_brightness);
+        mBrightness.setOnClickListener(this);
+        setBrightness(mSettings.getInt(KEY_BRIGHTNESS, 127));
+        setBrightnessButton();
+
         loadPatternGeneratorConfig();
     }
 
@@ -267,6 +290,10 @@ public class Main extends Activity implements OnClickListener {
             case R.id.pattern_display:
                 mPattern.step += 1;
                 break;
+
+            case R.id.button_brightness:
+                showDialog(0);
+                return;
 
         }
 
@@ -344,7 +371,7 @@ public class Main extends Activity implements OnClickListener {
             }
 
             mPattern.step = 0;
-            editor.commit();
+            editor.apply();
             displayPattern();
 
         }
@@ -413,10 +440,117 @@ public class Main extends Activity implements OnClickListener {
         }
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.brightness_dialog);
+
+        mBrightnessSeek = (SeekBar) dialog.findViewById(R.id.brightness_seek);
+        mBrightnessSeek.setMax(255);
+        mBrightnessSeek.setProgress(mBrightnessValue);
+        mBrightnessSeek.setOnSeekBarChangeListener(this);
+        dialog.setTitle(R.string.brightness_measurements);
+
+        WindowManager.LayoutParams layout = dialog.getWindow().getAttributes();
+        layout.dimAmount = 0;
+        if (mIsTablet)
+            layout.width = 500;
+        dialog.getWindow().setAttributes(layout);
+
+        for (int buttonId : BRIGHTNESS_BUTTONS)
+            ((Button) dialog.findViewById(buttonId)).setOnClickListener(brightnessClickReceiver);
+
+        return dialog;
+    }
+
     private boolean isTablet() {
         int layout = getResources().getConfiguration().screenLayout;
         boolean xlarge = ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
         boolean large = ((layout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
         return (xlarge || large);
     }
+
+    private void setBrightness(int brightness) {
+
+        float brightnessValue = (float) brightness / 255;
+        if (brightnessValue == 0)
+            brightnessValue = 0.0045f;
+
+        WindowManager.LayoutParams layout = getWindow().getAttributes();
+        layout.screenBrightness = brightnessValue;
+        getWindow().setAttributes(layout);
+
+        setBrightnessButton();
+
+        mBrightnessValue = brightness;
+        mSettings.edit()
+                .putInt(KEY_BRIGHTNESS, brightness)
+                .apply();
+    }
+
+    private void setBrightnessButton() {
+        mBrightness.setText(getText(R.string.button_brightness) + "\n" +
+                mBrightnessValue + "/255 - " +
+                String.format("%.0f %%", (float) mBrightnessValue / 255 * 100));
+    }
+
+    // brightness seekbar
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        if (fromUser) {
+            Log.i(TAG, "Change brightness to: " + progress);
+            setBrightness(progress);
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        setBrightness(seekBar.getProgress());
+    }
+
+    View.OnClickListener brightnessClickReceiver = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+            if (mBrightnessSeek != null) {
+                int value = 100;
+                switch (v.getId()) {
+                    case R.id.button_bright_0:
+                        setBrightness(0);
+                        value = 0;
+                        break;
+
+                    case R.id.button_bright_25:
+                        value = 64;
+                        break;
+
+                    case R.id.button_bright_50:
+                        value = 127;
+                        break;
+
+                    case R.id.button_bright_65:
+                        value = 166;
+                        break;
+
+                    case R.id.button_bright_75:
+                        value = 191;
+                        break;
+
+                    case R.id.button_bright_100:
+                        value = 255;
+                        break;
+                }
+
+                setBrightness(value);
+                mBrightnessSeek.setProgress(value);
+                setBrightnessButton();
+            }
+        }
+    };
+
 }

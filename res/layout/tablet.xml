@@ -56,6 +56,11 @@
                 android:layout_height="wrap_content" >
             </Spinner>
             <Button
+                android:id="@+id/button_brightness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_brightness" />
+            <Button
                 android:id="@+id/button_grayscale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

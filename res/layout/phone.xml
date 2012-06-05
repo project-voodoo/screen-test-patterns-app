@@ -2,48 +2,56 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <TableLayout
-        android:id="@+id/tableLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:stretchColumns="1" >
-        <TableRow
-            android:id="@+id/tableRow1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <Button
-                android:id="@+id/button_prev"
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:text="@string/prev" />
-            <Button
-                android:id="@+id/button_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/next" />
-        </TableRow>
-    </TableLayout>
-    <Spinner
-        android:id="@+id/spinner_pattern_type"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/tableLayout1"
-        android:layout_alignParentLeft="true" />
     <View
         android:id="@+id/pattern_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/current_pattern_info"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" />
-    <TextView
-        android:id="@+id/current_pattern_info"
+        android:layout_above="@+id/spinner_pattern_type"
+        android:layout_alignParentLeft="true" />
+    <LinearLayout
+        android:id="@+id/infos_and_brightness"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/spinner_pattern_type"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:gravity="center_horizontal"
-        android:text="@string/detailed_infos" />
+        android:gravity="center_horizontal|center_vertical" >
+        <TextView
+            android:id="@+id/current_pattern_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/detailed_infos" />
+        <Button
+            android:id="@+id/button_brightness"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/button_brightness" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/infos_and_brightness"
+        android:layout_alignParentLeft="true" >
+        <Button
+            android:id="@+id/button_prev"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/prev" />
+        <Button
+            android:id="@+id/button_next"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/next" />
+    </LinearLayout>
+    <Spinner
+        android:id="@+id/spinner_pattern_type"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttons"
+        android:layout_alignParentLeft="true" />
 </RelativeLayout>

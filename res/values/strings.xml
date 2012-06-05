@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Voodoo Screen Test Patterns</string>
     <string name="next">Next</string>
     <string name="prev">Prev</string>
     <string name="grayscale">N° of Grayscale levels</string>
     <string name="grayscale_prompt">Number of grayscale levels</string>
-
     <string-array name="grayscale_array">
         <item>4</item>
         <item>10</item>
@@ -15,43 +13,35 @@
         <item>64</item>
         <item>128</item>
     </string-array>
-
     <string name="near_black">N° of Near Black levels</string>
     <string name="near_black_prompt">Number of near black levels</string>
-
     <string-array name="near_black_array">
         <item>4</item>
         <item>6</item>
         <item>8</item>
         <item>10</item>
     </string-array>
-
     <string name="near_white">N° of Near White levels</string>
     <string name="near_white_prompt">Number of near white levels</string>
-
     <string-array name="near_white_array">
         <item>4</item>
         <item>6</item>
         <item>8</item>
         <item>10</item>
     </string-array>
-
     <string name="saturations">N° of Saturation levels</string>
     <string name="saturations_prompt">Number of saturation levels</string>
-
     <string-array name="saturations_array">
         <item>4</item>
         <item>8</item>
         <item>16</item>
     </string-array>
-
     <string name="button_grayscale">Grayscale</string>
     <string name="button_colors">All Colors</string>
     <string name="button_saturations">Saturations</string>
     <string name="button_near_black">Near Black</string>
     <string name="button_near_white">Near White</string>
     <string name="detailed_infos">Current Pattern:\nDetailed Infos</string>
-
     <string-array name="pattern_types_array">
         <item>Grayscale</item>
         <item>All Colors</item>
@@ -59,7 +49,13 @@
         <item>Near Black</item>
         <item>Near White</item>
     </string-array>
-
     <string name="pattern_config">Pattern generator configuration</string>
-
+    <string name="button_brightness">Brightness</string>
+    <string name="brightness_measurements">Choose brightness level</string>
+    <string name="button_0">0%</string>
+    <string name="button_25">25%</string>
+    <string name="button_50">50%</string>
+    <string name="button_65">65%</string>
+    <string name="button_75">75%</string>
+    <string name="button_100">100%</string>
 </resources>
