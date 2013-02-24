@@ -39,6 +39,15 @@
         <item>8</item>
         <item>16</item>
     </string-array>
+    <string name="pattern_scale">Pattern display scaling</string>
+    <string name="pattern_scale_prompt">Define size of the pattern</string>
+    <string-array name="pattern_scale_array">
+        <item>20</item>
+        <item>40</item>
+        <item>60</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
     <string name="button_grayscale">Grayscale</string>
     <string name="button_colors">All Colors</string>
     <string name="button_saturations">Saturations</string>

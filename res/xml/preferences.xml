@@ -25,5 +25,11 @@
             android:entryValues="@array/saturations_array"
             android:key="saturations_levels"
             android:title="@string/saturations" />
+        <ListPreference
+            android:dialogTitle="@string/pattern_scale_prompt"
+            android:entries="@array/pattern_scale_array"
+            android:entryValues="@array/pattern_scale_array"
+            android:key="pattern_scale"
+            android:title="@string/pattern_scale" />
     </PreferenceCategory>
 </PreferenceScreen>

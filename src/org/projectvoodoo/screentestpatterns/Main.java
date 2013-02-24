@@ -23,6 +23,7 @@ import java.text.DecimalFormat;
 
 import org.projectvoodoo.screentestpatterns.Patterns.PatternType;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
@@ -31,6 +32,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -44,6 +46,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
@@ -58,6 +61,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
     private static final String KEY_NEAR_BLACK_LEVELS = "near_black_levels";
     private static final String KEY_SATURATION_LEVELS = "saturations_levels";
     private static final String KEY_BRIGHTNESS = "brightness";
+    private static final String KEY_PATTERN_SCALE = "pattern_scale";
 
     private Patterns mPattern;
 
@@ -240,7 +244,18 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
         super.onResume();
     }
 
+    @SuppressLint("NewApi")
     private void loadPatternGeneratorConfig() {
+
+        LinearLayout patternScaler = (LinearLayout) findViewById(R.id.pattern_scaler);
+        float scale = (float) Integer.parseInt(mSettings.getString(KEY_PATTERN_SCALE, "100")) / 100;
+
+        if (Build.VERSION.SDK_INT >= 11) {
+            patternScaler.invalidate();
+            patternScaler.setScaleX(scale);
+            patternScaler.setScaleY(scale);
+        }
+
         // load pattern generator config from preferences
         mPattern.grayscaleLevels = Integer.parseInt(mSettings.getString(KEY_GRAYSCALE_LEVELS,
                 mPattern.grayscaleLevels + ""));
