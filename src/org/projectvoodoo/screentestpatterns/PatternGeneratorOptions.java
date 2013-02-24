@@ -8,6 +8,7 @@ public class PatternGeneratorOptions extends PreferenceActivity {
 
     public static final String prefName = "hcfr_generator";
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

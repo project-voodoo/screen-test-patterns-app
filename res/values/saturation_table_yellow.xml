@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string-array name="saturation_table_yellow">
         <item>246 246 246</item>
         <item>247 247 235</item>
@@ -20,5 +19,4 @@
         <item>254 254 58</item>
         <item>255 255 0</item>
     </string-array>
-
 </resources>

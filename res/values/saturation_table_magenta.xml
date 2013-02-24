@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string-array name="saturation_table_magenta">
         <item>144 144 144</item>
         <item>149 142 149</item>
@@ -20,5 +19,4 @@
         <item>244 56 244</item>
         <item>255 0 255</item>
     </string-array>
-
 </resources>

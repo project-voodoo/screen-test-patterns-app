@@ -19,6 +19,8 @@
 
 package org.projectvoodoo.screentestpatterns;
 
+import java.text.DecimalFormat;
+
 import org.projectvoodoo.screentestpatterns.Patterns.PatternType;
 
 import android.app.Activity;
@@ -49,7 +51,6 @@ import android.widget.TextView;
 
 public class Main extends Activity implements OnClickListener, OnSeekBarChangeListener {
 
-    @SuppressWarnings("unused")
     private static final String TAG = "Voodoo ScreenTestPatterns Main";
 
     private static final String KEY_GRAYSCALE_LEVELS = "grayscale_levels";
@@ -122,6 +123,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
         // we will display the stuff here
         mPatternView = (View) findViewById(R.id.pattern_display);
+
         mDisplay = new ShapeDrawable(new OvalShape());
         mDisplay.getPaint().setColor(Color.GRAY);
         mPatternView.setBackgroundDrawable(mDisplay);
@@ -250,6 +252,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
                 mPattern.saturationLevels + ""));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onClick(View v) {
 
@@ -310,13 +313,30 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
     private void showCurrentPatternInfos() {
         String text = mPattern.type + " ";
-        if (mPattern.type == PatternType.GRAYSCALE)
-            text += "IRE " +
-                    (int) ((float) 100 / mPattern.grayscaleLevels * mPattern.step) + "\n";
-        else
-            text += "\n";
+        if (mPattern.type == PatternType.GRAYSCALE || mPattern.type == PatternType.NEAR_BLACK
+                || mPattern.type == PatternType.NEAR_WHITE) {
+            text += "IRE ";
 
-        text += "R: " + Color.red(mPattern.mColor);
+            switch (mPattern.type) {
+                case GRAYSCALE:
+                    text += new DecimalFormat("#.##").format(
+                            ((float) 100 / mPattern.grayscaleLevels * mPattern.step));
+                    break;
+
+                case NEAR_BLACK:
+                    text += mPattern.step;
+                    break;
+
+                case NEAR_WHITE:
+                    text += 100 - mPattern.nearWhiteLevels + mPattern.step;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        text += "\nR: " + Color.red(mPattern.mColor);
         text += " G: " + Color.green(mPattern.mColor);
         text += " B: " + Color.blue(mPattern.mColor);
         mCurrentPatternInfos.setText(text);

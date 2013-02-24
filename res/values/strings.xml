@@ -6,12 +6,15 @@
     <string name="grayscale">N° of Grayscale levels</string>
     <string name="grayscale_prompt">Number of grayscale levels</string>
     <string-array name="grayscale_array">
-        <item>4</item>
+        <item>5</item>
         <item>10</item>
         <item>20</item>
+        <item>25</item>
+        <item>30</item>
         <item>40</item>
+        <item>50</item>
         <item>64</item>
-        <item>128</item>
+        <item>100</item>
     </string-array>
     <string name="near_black">N° of Near Black levels</string>
     <string name="near_black_prompt">Number of near black levels</string>
@@ -58,4 +61,5 @@
     <string name="button_65">65%</string>
     <string name="button_75">75%</string>
     <string name="button_100">100%</string>
+    <string name="pattern_options">Pattern generator options</string>
 </resources>
