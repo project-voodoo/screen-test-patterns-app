@@ -3,10 +3,12 @@
     package="org.projectvoodoo.screentestpatterns"
     android:versionCode="10"
     android:versionName="3.3" >
+
     <uses-sdk
         android:minSdkVersion="4"
-        android:targetSdkVersion="12" >
+        android:targetSdkVersion="17" >
     </uses-sdk>
+
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -15,19 +17,24 @@
         android:smallScreens="true"
         android:xlargeScreens="true" >
     </supports-screens>
+
     <application
+        android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:supportsRtl="false" >
         <activity
             android:name=".Main"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".PatternGeneratorOptions" >
         </activity>
     </application>
+
 </manifest>

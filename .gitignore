@@ -14,4 +14,3 @@ gen/
 proguard/
 bin/
 lint.xml
-.classpath
