@@ -19,10 +19,6 @@
 
 package org.projectvoodoo.screentestpatterns;
 
-import java.text.DecimalFormat;
-
-import org.projectvoodoo.screentestpatterns.Patterns.PatternType;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
@@ -51,6 +47,10 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.projectvoodoo.screentestpatterns.Patterns.PatternType;
+
+import java.text.DecimalFormat;
 
 public class Main extends Activity implements OnClickListener, OnSeekBarChangeListener {
 
