@@ -28,6 +28,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -128,7 +129,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
         // we will display the stuff here
         mPatternView = (View) findViewById(R.id.pattern_display);
 
-        mDisplay = new ShapeDrawable(new OvalShape());
+        mDisplay = new ShapeDrawable(new RectShape());
         mDisplay.getPaint().setColor(Color.GRAY);
         mPatternView.setBackgroundDrawable(mDisplay);
         mPatternView.setOnClickListener(this);
