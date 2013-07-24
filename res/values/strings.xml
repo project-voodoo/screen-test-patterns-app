@@ -63,7 +63,7 @@
     </string-array>
     <string name="pattern_config">Pattern generator configuration</string>
     <string name="button_brightness">Brightness</string>
-    <string name="brightness_measurements">Choose brightness level</string>
+    <string name="choose_brightness">Choose brightness level</string>
     <string name="button_0">0%</string>
     <string name="button_25">25%</string>
     <string name="button_50">50%</string>

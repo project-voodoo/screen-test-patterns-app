@@ -15,6 +15,8 @@ public class PatternGeneratorOptions extends PreferenceActivity {
 
         getPreferenceManager().setSharedPreferencesName(prefName);
         addPreferencesFromResource(R.xml.preferences);
+
+        App.reloadGenerator = true;
     }
 
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/pattern_options"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/pattern_options"/>
+    <item
+        android:id="@+id/brightness_options"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="@string/choose_brightness">
+    </item>
+
+</menu>

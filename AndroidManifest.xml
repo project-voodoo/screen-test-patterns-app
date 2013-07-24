@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.projectvoodoo.screentestpatterns"
-    android:versionCode="11"
-    android:versionName="3.4" >
+    android:versionCode="12"
+    android:versionName="4-dev" >
 
     <uses-sdk
         android:minSdkVersion="4"
-        android:targetSdkVersion="13" >
+        android:targetSdkVersion="17" >
     </uses-sdk>
 
     <supports-screens
@@ -23,17 +23,21 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:supportsRtl="false" >
+        android:supportsRtl="false" android:name="App">
         <activity
             android:name=".Main"
             android:label="@string/app_name" >
+        </activity>
+        <activity android:name=".PatternGeneratorOptions" >
+        </activity>
+        <activity
+            android:name="FullScreenUi"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".PatternGeneratorOptions" >
         </activity>
     </application>
 

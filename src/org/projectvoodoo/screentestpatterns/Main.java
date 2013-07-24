@@ -23,11 +23,9 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Build;
 import android.os.Bundle;
@@ -49,22 +47,13 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.projectvoodoo.screentestpatterns.Patterns.PatternType;
-
-import java.text.DecimalFormat;
+import org.projectvoodoo.screentestpatterns.PatternGenerator.PatternType;
 
 public class Main extends Activity implements OnClickListener, OnSeekBarChangeListener {
 
     private static final String TAG = "Voodoo ScreenTestPatterns Main";
 
-    private static final String KEY_GRAYSCALE_LEVELS = "grayscale_levels";
-    private static final String KEY_NEAR_WHITE_LEVELS = "near_white_levels";
-    private static final String KEY_NEAR_BLACK_LEVELS = "near_black_levels";
-    private static final String KEY_SATURATION_LEVELS = "saturations_levels";
-    private static final String KEY_BRIGHTNESS = "brightness";
-    private static final String KEY_PATTERN_SCALE = "pattern_scale";
-
-    private Patterns mPattern;
+    private PatternGenerator patternGenerator;
 
     private ShapeDrawable mDisplay;
     private View mPatternView;
@@ -86,21 +75,10 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
     private Button mBrightness;
     private SeekBar mBrightnessSeek;
-    private int mBrightnessValue;
-
-    private static final int[] BRIGHTNESS_BUTTONS = {
-            R.id.button_bright_0,
-            R.id.button_bright_25,
-            R.id.button_bright_50,
-            R.id.button_bright_65,
-            R.id.button_bright_75,
-            R.id.button_bright_100,
-    };
 
     private Boolean mIsTablet = false;
 
-    private SharedPreferences mSettings;
-
+    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,10 +87,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
         mIsTablet = isTablet();
 
         // instantiate pattern engine
-        mPattern = new Patterns(this);
-
-        // preference manager
-        mSettings = getSharedPreferences(PatternGeneratorOptions.prefName, MODE_PRIVATE);
+        patternGenerator = new PatternGenerator();
 
         // keep screen always on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -146,8 +121,8 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
             mGrayscaleLevelsSpinner.setAdapter(grayscaleAdapter);
             setSpinnerValue(
                     mGrayscaleLevelsSpinner,
-                    Integer.parseInt(mSettings.getString(KEY_GRAYSCALE_LEVELS,
-                            mPattern.grayscaleLevels + "")));
+                    Integer.parseInt(App.settings.getString(App.KEY_GRAYSCALE_LEVELS,
+                            patternGenerator.getSteps(PatternType.GRAYSCALE) + "")));
             mGrayscaleLevelsSpinner.setOnItemSelectedListener(optionsListener);
 
             // For near black measurements
@@ -161,8 +136,8 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
             mNearBlackLevelsSpinner.setAdapter(blackLevelsAdapter);
             setSpinnerValue(
                     mNearBlackLevelsSpinner,
-                    Integer.parseInt(mSettings.getString(KEY_NEAR_BLACK_LEVELS,
-                            mPattern.nearBlackLevels + "")));
+                    Integer.parseInt(App.settings.getString(App.KEY_NEAR_BLACK_LEVELS,
+                            patternGenerator.getSteps(PatternType.NEAR_BLACK) + "")));
             mNearBlackLevelsSpinner.setOnItemSelectedListener(optionsListener);
 
             // For near white measurements
@@ -176,8 +151,8 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
             mNearWhiteLevelsSpinner.setAdapter(whiteLevelsAdapter);
             setSpinnerValue(
                     mNearWhiteLevelsSpinner,
-                    Integer.parseInt(mSettings.getString(KEY_NEAR_WHITE_LEVELS,
-                            mPattern.nearWhiteLevels + "")));
+                    Integer.parseInt(App.settings.getString(App.KEY_NEAR_WHITE_LEVELS,
+                            patternGenerator.getSteps(PatternType.NEAR_WHITE) + "")));
             mNearWhiteLevelsSpinner.setOnItemSelectedListener(optionsListener);
 
             // For saturation measurements
@@ -191,8 +166,8 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
             mSaturationLevelsSpinner.setAdapter(saturationLevelsAdapter);
             setSpinnerValue(
                     mSaturationLevelsSpinner,
-                    Integer.parseInt(mSettings.getString(KEY_SATURATION_LEVELS,
-                            mPattern.saturationLevels + "")));
+                    Integer.parseInt(App.settings.getString(App.KEY_SATURATION_LEVELS,
+                            patternGenerator.getSteps(PatternType.SATURATIONS) + "")));
             mSaturationLevelsSpinner.setOnItemSelectedListener(optionsListener);
 
             // Buttons
@@ -231,7 +206,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
         mBrightness = (Button) findViewById(R.id.button_brightness);
         mBrightness.setOnClickListener(this);
-        setBrightness(mSettings.getInt(KEY_BRIGHTNESS, 127), false);
+        setBrightness(App.settings.getInt(App.KEY_BRIGHTNESS, 127), false);
         setBrightnessButton();
 
         loadPatternGeneratorConfig();
@@ -249,7 +224,8 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
     private void loadPatternGeneratorConfig() {
 
         LinearLayout patternScaler = (LinearLayout) findViewById(R.id.pattern_scaler);
-        float scale = (float) Integer.parseInt(mSettings.getString(KEY_PATTERN_SCALE, "100")) / 100;
+        float scale = (float) Integer.parseInt(
+                App.settings.getString(App.KEY_PATTERN_SCALE, "100")) / 100;
 
         if (Build.VERSION.SDK_INT >= 11) {
             patternScaler.invalidate();
@@ -257,15 +233,6 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
             patternScaler.setScaleY(scale);
         }
 
-        // load pattern generator config from preferences
-        mPattern.grayscaleLevels = Integer.parseInt(mSettings.getString(KEY_GRAYSCALE_LEVELS,
-                mPattern.grayscaleLevels + ""));
-        mPattern.nearBlackLevels = Integer.parseInt(mSettings.getString(KEY_NEAR_BLACK_LEVELS,
-                mPattern.nearBlackLevels + ""));
-        mPattern.nearWhiteLevels = Integer.parseInt(mSettings.getString(KEY_NEAR_WHITE_LEVELS,
-                mPattern.nearWhiteLevels + ""));
-        mPattern.saturationLevels = Integer.parseInt(mSettings.getString(KEY_SATURATION_LEVELS,
-                mPattern.saturationLevels + ""));
     }
 
     @SuppressWarnings("deprecation")
@@ -274,40 +241,35 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
         switch (v.getId()) {
             case R.id.button_grayscale:
-                mPattern.type = PatternType.GRAYSCALE;
-                mPattern.step = 0;
+                patternGenerator.setType(PatternType.GRAYSCALE);
                 break;
 
             case R.id.button_near_black:
-                mPattern.type = PatternType.NEAR_BLACK;
-                mPattern.step = 0;
+                patternGenerator.setType(PatternType.NEAR_BLACK);
                 break;
 
             case R.id.button_near_white:
-                mPattern.type = PatternType.NEAR_WHITE;
-                mPattern.step = 0;
+                patternGenerator.setType(PatternType.NEAR_WHITE);
                 break;
 
             case R.id.button_colors:
-                mPattern.type = PatternType.COLORS;
-                mPattern.step = 0;
+                patternGenerator.setType(PatternType.COLORS);
                 break;
 
             case R.id.button_saturations:
-                mPattern.type = PatternType.SATURATIONS;
-                mPattern.step = 0;
+                patternGenerator.setType(PatternType.SATURATIONS);
                 break;
 
             case R.id.button_prev:
-                mPattern.step -= 1;
+                patternGenerator.prevStep();
                 break;
 
             case R.id.button_next:
-                mPattern.step += 1;
+                patternGenerator.nextStep();
                 break;
 
             case R.id.pattern_display:
-                mPattern.step += 1;
+                patternGenerator.nextStep();
                 break;
 
             case R.id.button_brightness:
@@ -319,43 +281,17 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
         displayPattern();
     }
 
+    @SuppressWarnings("deprecation")
     private void displayPattern() {
 
-        mDisplay.getPaint().setColor(mPattern.getColor());
+        mDisplay.getPaint().setColor(patternGenerator.getColor());
         mPatternView.setBackgroundDrawable(mDisplay);
         mPatternView.invalidate();
         showCurrentPatternInfos();
     }
 
     private void showCurrentPatternInfos() {
-        String text = mPattern.type + " ";
-        if (mPattern.type == PatternType.GRAYSCALE || mPattern.type == PatternType.NEAR_BLACK
-                || mPattern.type == PatternType.NEAR_WHITE) {
-            text += "IRE ";
-
-            switch (mPattern.type) {
-                case GRAYSCALE:
-                    text += new DecimalFormat("#.##").format(
-                            ((float) 100 / mPattern.grayscaleLevels * mPattern.step));
-                    break;
-
-                case NEAR_BLACK:
-                    text += mPattern.step;
-                    break;
-
-                case NEAR_WHITE:
-                    text += 100 - mPattern.nearWhiteLevels + mPattern.step;
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        text += "\nR: " + Color.red(mPattern.mColor);
-        text += " G: " + Color.green(mPattern.mColor);
-        text += " B: " + Color.blue(mPattern.mColor);
-        mCurrentPatternInfos.setText(text);
+        mCurrentPatternInfos.setText(patternGenerator.showCurrentPatternInfos());
     }
 
     private void setSpinnerValue(Spinner spinner, int value) {
@@ -381,33 +317,25 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
             String valueStr = (String) parent.getAdapter().getItem(pos);
             int value = Integer.parseInt(valueStr);
 
-            SharedPreferences.Editor editor = mSettings.edit();
-
             switch (parent.getId()) {
                 case R.id.spinner_grayscale_levels:
-                    mPattern.grayscaleLevels = value;
-                    editor.putString(KEY_GRAYSCALE_LEVELS, valueStr);
+                    patternGenerator.saveSteps(PatternType.GRAYSCALE, value);
                     break;
 
                 case R.id.spinner_near_black_levels:
-                    mPattern.nearBlackLevels = value;
-                    editor.putString(KEY_NEAR_BLACK_LEVELS, valueStr);
+                    patternGenerator.saveSteps(PatternType.NEAR_BLACK, value);
                     break;
 
                 case R.id.spinner_near_white_levels:
-                    mPattern.nearWhiteLevels = value;
-                    editor.putString(KEY_NEAR_WHITE_LEVELS, valueStr);
+                    patternGenerator.saveSteps(PatternType.NEAR_WHITE, value);
                     break;
 
                 case R.id.spinner_saturation_levels:
-                    mPattern.saturationLevels = value;
-                    editor.putString(KEY_SATURATION_LEVELS, valueStr);
+                    patternGenerator.saveSteps(PatternType.SATURATIONS, value);
                     break;
 
             }
 
-            mPattern.step = 0;
-            editor.commit();
             displayPattern();
 
         }
@@ -424,27 +352,26 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
             switch (pos) {
                 case 0:
-                    mPattern.type = PatternType.GRAYSCALE;
+                    patternGenerator.setType(PatternType.GRAYSCALE);
                     break;
 
                 case 1:
-                    mPattern.type = PatternType.COLORS;
+                    patternGenerator.setType(PatternType.COLORS);
                     break;
 
                 case 2:
-                    mPattern.type = PatternType.SATURATIONS;
+                    patternGenerator.setType(PatternType.SATURATIONS);
                     break;
 
                 case 3:
-                    mPattern.type = PatternType.NEAR_BLACK;
+                    patternGenerator.setType(PatternType.NEAR_BLACK);
                     break;
 
                 case 4:
-                    mPattern.type = PatternType.NEAR_WHITE;
+                    patternGenerator.setType(PatternType.NEAR_WHITE);
                     break;
             }
 
-            mPattern.step = 0;
             displayPattern();
         }
 
@@ -483,9 +410,9 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
         mBrightnessSeek = (SeekBar) dialog.findViewById(R.id.brightness_seek);
         mBrightnessSeek.setMax(255);
-        mBrightnessSeek.setProgress(mBrightnessValue);
+        mBrightnessSeek.setProgress(App.brightnessValue);
         mBrightnessSeek.setOnSeekBarChangeListener(this);
-        dialog.setTitle(R.string.brightness_measurements);
+        dialog.setTitle(R.string.choose_brightness);
 
         WindowManager.LayoutParams layout = dialog.getWindow().getAttributes();
         layout.dimAmount = 0;
@@ -493,7 +420,7 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
             layout.width = 500;
         dialog.getWindow().setAttributes(layout);
 
-        for (int buttonId : BRIGHTNESS_BUTTONS)
+        for (int buttonId : App.BRIGHTNESS_BUTTONS)
             ((Button) dialog.findViewById(buttonId)).setOnClickListener(brightnessClickReceiver);
 
         return dialog;
@@ -518,17 +445,17 @@ public class Main extends Activity implements OnClickListener, OnSeekBarChangeLi
 
         setBrightnessButton();
 
-        mBrightnessValue = brightness;
+        App.brightnessValue = brightness;
         if (record)
-            mSettings.edit()
-                    .putInt(KEY_BRIGHTNESS, brightness)
+            App.settings.edit()
+                    .putInt(App.KEY_BRIGHTNESS, brightness)
                     .commit();
     }
 
     private void setBrightnessButton() {
         mBrightness.setText(getText(R.string.button_brightness) + "\n" +
-                mBrightnessValue + "/255 - " +
-                String.format("%.0f %%", (float) mBrightnessValue / 255 * 100));
+                App.brightnessValue + "/255 - " +
+                String.format("%.0f %%", (float) App.brightnessValue / 255 * 100));
     }
 
     // brightness seekbar
